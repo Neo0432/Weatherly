@@ -17,6 +17,7 @@ let cityInfo = ref({})
 
 onBeforeMount(async () => {
   navigator.geolocation.getCurrentPosition((position) => {
+    //мб и бесполезная проверка, можно оптимизировать
     if (
       !(position.coords.latitude == localStorage.getItem('userLatitude')) ||
       !(position.coords.longitude == localStorage.getItem('userLongitude'))
@@ -27,7 +28,6 @@ onBeforeMount(async () => {
       localStorage.setItem('userLongitude', position.coords.longitude)
     }
   })
-  // }
   let currentUserPosition = {
     lat: localStorage.getItem('userLatitude'),
     lon: localStorage.getItem('userLongitude')

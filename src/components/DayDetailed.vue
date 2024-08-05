@@ -75,7 +75,7 @@ const keysOfDay = ['morning', 'afternoon', 'evening', 'night']
               {{ props.weatherToday[keysOfDay[index]].wind_speed_10m }}
             </div>
             <div class="flex justify-center items-center w-full">
-              {{ props.weatherToday[keysOfDay[index]].apparent_temperature }}
+              {{ tempMark(props.weatherToday[keysOfDay[index]].apparent_temperature) }}
             </div>
           </div>
         </template>

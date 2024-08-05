@@ -50,7 +50,7 @@ function getDataAboutTimeOfDay(timing, dataArray) {
     getTheMostFrequentWeatherCode(timing, dataArray.weather_code.slice(timing[0], timing[1]))
   )
 
-  console.table(data)
+  // console.table(data)
 
   return data
 }
