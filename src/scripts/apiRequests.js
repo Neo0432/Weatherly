@@ -18,7 +18,7 @@ export async function getCityInfo(cityInfo) {
       //   )
       //   .then((res) => (city = res.data[0]))
 
-      console.table(city)
+      // console.table(city)
       console.log('Функция поиска города по названию выполнена удачно')
     } catch {
       console.error('The allowed number of requests has been exceeded. API for city name')
@@ -31,8 +31,7 @@ export async function getCityInfo(cityInfo) {
           `http://api.openweathermap.org/geo/1.0/reverse?lat=${cityInfo.lat}&lon=${cityInfo.lon}&limit=1&appid=fa6f91685ac74aafa5a5554ee81859ca`
         )
         .then((res) => (city = res.data[0]))
-      console.table(city)
-      console.log('Функция поиска города по названию выполнена удачно')
+      console.log('Функция поиска города по координатам выполнена удачно')
     } catch {
       console.error(
         'The allowed number of requests has been exceeded. API for city name by coordinates'
@@ -53,7 +52,7 @@ export async function getWeatherResponseFromAPI(city) {
       )
       .then((res) => (data = res.data))
 
-    console.log('Функиця Запроса погоды выполнена удачно')
+    console.log('Функиця запроса погоды выполнена удачно')
   } catch {
     console.error('The allowed number of requests has been exceeded. Weather forecast API')
   }

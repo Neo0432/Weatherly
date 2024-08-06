@@ -37,6 +37,18 @@ onBeforeMount(async () => {
     weatherDataJson.value = await apiRequests.getWeatherResponseFromAPI(cityInfo.value)
   }
 })
+
+const getCityInfoFromSearch = (searchResult) => {
+  searchResult.then(async (value) => {
+    try {
+      cityInfo.value = value
+      const response = await apiRequests.getWeatherResponseFromAPI(value)
+      weatherDataJson.value = response
+    } catch (error) {
+      console.error('Error fetching weather data:', error)
+    }
+  })
+}
 </script>
 
 <template>
@@ -44,7 +56,7 @@ onBeforeMount(async () => {
     class="flex absolute bg-[radial-gradient(65%_96.3%_at_50%_0%,rgba(63,123,212,1.0)_0%,rgba(3,3,6,1.0)_100%)] w-full h-[49.125rem] -z-10"
   ></div>
   <div class="flex flex-col items-center font-regular text-white px-6 py-8 gap-8">
-    <header><Navigation /></header>
+    <header><Navigation :callback-function="getCityInfoFromSearch" /></header>
     <main class="grid gap-8">
       <WeatherNow
         v-if="weatherDataJson"

@@ -1,18 +1,23 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, defineProps } from 'vue'
 import { getCityInfo } from '@/scripts/apiRequests'
+
+const props = defineProps({
+  callbackFunction: {
+    type: Function,
+    required: true
+  }
+})
+
 let cityName = ref({ name: '' })
 
-function searchByCityName() {
+const searchByCityName = () => {
   if (!cityName.value.name || cityName.value.name.length <= 2) {
     console.log(cityInfo.value.name)
-    console.log('ОШИБКА')
+    return
   }
-  console.log('СИТИНЕЙМ ' + cityName.value.name)
-  console.log('функция выполняется')
   const cityInfo = getCityInfo(cityName.value)
-  console.log(cityInfo)
-  return cityInfo
+  props.callbackFunction(cityInfo)
 }
 </script>
 
@@ -25,6 +30,7 @@ function searchByCityName() {
         name="search"
         id="search"
         placeholder="Введите ваш город"
+        autocomplete="off"
         class="p-2 font-regular w-[27.5rem] bg-grayblue shadow-based outline-none rounded-lg placeholder:text-white placeholder:text-base placeholder:focus:text-sm placeholder:focus:text-secondaryText placeholder:transition-all"
       />
       <button
