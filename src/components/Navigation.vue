@@ -22,8 +22,14 @@ const searchByCityName = () => {
 </script>
 
 <template>
-  <div class="flex justify-between w-full px-10 py-4">
-    <div class="flex gap-2">
+  <div class="flex justify-between items-center w-full h-fit max-w-screen-2xl px-10 py-4 mx-auto">
+    <div class="flex gap-2 items-center w-fit h-10">
+      <div class="w-28">
+        <img src="/src/assets/logo.svg" alt="" class="w-full h-auto" />
+      </div>
+      <p class="font-bold text-4xl">Weatherly</p>
+    </div>
+    <div class="flex gap-2 max-h-9">
       <input
         v-model="cityName.name"
         type="text"

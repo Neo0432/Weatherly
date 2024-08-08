@@ -16,7 +16,7 @@ const props = defineProps({
 
 <template>
   <div class="flex flex-col items-center justify-center w-full py-6 gap-4">
-    <p class="font-regular text-3xl">{{ props.city }}</p>
+    <p class="font-semibold text-3xl">{{ props.city }}</p>
     <div class="flex justify-center items-center gap-8">
       <p class="font-semibold text-8xl">{{ tempMark(props.temp) }}</p>
       <div class="flex gap-1 items-center">
