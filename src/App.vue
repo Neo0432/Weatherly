@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue'
 import Navigation from './components/Navigation.vue'
+import NoDataLoading from './components/NoDataLoading.vue'
 import WeatherNow from './components/WeatherNow.vue'
 import SmallWeatherCard from './components/SmallWeatherCard.vue'
 import DayDetailed from './components/DayDetailed.vue'
@@ -59,9 +60,8 @@ const getCityInfoFromSearch = (searchResult) => {
     <header class="w-full">
       <Navigation :callback-function="getCityInfoFromSearch" />
     </header>
-    <main class="grid gap-8">
+    <main class="grid gap-8" v-if="weatherDataJson">
       <WeatherNow
-        v-if="weatherDataJson"
         :city="cityInfo.local_names.ru"
         :temp="Math.round(weatherDataJson.current.temperature_2m)"
         :weather="weatherFromWeatherCode(weatherDataJson.current.weather_code)"
@@ -75,10 +75,10 @@ const getCityInfoFromSearch = (searchResult) => {
         :humidity="weatherDataJson.current.relative_humidity_2m"
         :pressure="weatherDataJson.current.surface_pressure"
       />
-      <div v-else class="w-full text-center text-6xl">Нет данных</div>
-      <div v-if="weatherDataJson" class="flex flex-col gap-4 w-full">
+      <!-- <div v-else class="w-full text-center text-6xl">Нет данных</div> -->
+      <div class="flex flex-col gap-4 w-full">
         <p class="font-medium text-2xl">Прогноз на 7 дней:</p>
-        <div class="flex gap-4 w-full">
+        <div class="flex gap-4 w-full flex-nowrap">
           <SmallWeatherCard
             v-for="(weather, index) in 7"
             :key="index"
@@ -93,7 +93,10 @@ const getCityInfoFromSearch = (searchResult) => {
           />
         </div>
       </div>
-      <DayDetailed v-if="weatherDataJson" :weatherToday="getWeatherForDate(weatherDataJson)" />
+      <DayDetailed :weatherToday="getWeatherForDate(weatherDataJson)" />
+    </main>
+    <main v-else class="w-full">
+      <NoDataLoading />
     </main>
   </div>
 </template>

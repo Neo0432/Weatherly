@@ -1,5 +1,4 @@
 <script setup>
-// import { computed } from 'vue'
 import WeatherDataCard from './WeatherDataCard.vue'
 import { tempMark } from '@/scripts/tempMark'
 
@@ -21,8 +20,10 @@ const props = defineProps({
       <p class="font-semibold text-8xl">{{ tempMark(props.temp) }}</p>
       <div class="flex gap-1 items-center">
         <img :src="props.weather.icon_path" alt="" class="h-[5.375rem]" />
-        <div class="flex flex-col gap-1 text-lg">
-          <p class="first-letter:capitalize">{{ props.weather.description }}</p>
+        <div class="flex flex-col text-lg">
+          <p class="text-2xl font-medium first-letter:capitalize">
+            {{ props.weather.description }}
+          </p>
           <p>Ощущается как {{ tempMark(props.feelsLike) }}</p>
         </div>
       </div>

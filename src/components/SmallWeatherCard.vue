@@ -16,7 +16,6 @@ const props = defineProps({
 const DAYS = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота']
 
 function getDayOfWeek(date) {
-  // console.debug(date)
   if (date >= 7) date -= 7
   return DAYS[date]
 }
@@ -36,14 +35,14 @@ function getMonthNumberPretty(month) {
         ', ' +
         props.date.getDate() +
         '.' +
-        getMonthNumberPretty(props.date.getMonth())
+        getMonthNumberPretty(props.date.getMonth() + 1)
       }}
     </p>
     <div class="flex justify-center gap-3 items-center w-full">
       <img :src="props.weather.icon_path" alt="" />
       <div class="flex flex-col items-center">
         <p class="font-bold text-[2rem]">{{ tempMark(props.temp) }}</p>
-        <p class="text-base break-all">{{ props.weather.description }}</p>
+        <p class="text-base break-word">{{ props.weather.description }}</p>
       </div>
     </div>
     <div class="grid grid-cols-2 justify-center text-center">
