@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onBeforeMount } from 'vue'
+import { ref, watch, onBeforeMount, onMounted } from 'vue'
 import Navigation from './components/Navigation.vue'
 import NoDataLoading from './components/NoDataLoading.vue'
 import WeatherNow from './components/WeatherNow.vue'
@@ -13,8 +13,8 @@ import {
   getWeatherForDate
 } from '@/scripts/computationForecastData'
 
-let weatherDataJson = ref(null)
 let cityInfo = ref({})
+let weatherDataJson = ref(null)
 
 onBeforeMount(async () => {
   navigator.geolocation.getCurrentPosition((position) => {
@@ -50,12 +50,37 @@ const getCityInfoFromSearch = (searchResult) => {
     }
   })
 }
+
+onMounted(() => {
+  watch(weatherDataJson, (newWeatherDataJson) => {
+    if (newWeatherDataJson == null || newWeatherDataJson == undefined) return
+    const bgArea = document.querySelector('#bg-component')
+    const firstBg = document.querySelector('#main-bg-gradient')
+    const gradient =
+      'radial-gradient(65% 96.3% at 50% 0%, ' +
+      weatherFromWeatherCode(newWeatherDataJson.current.weather_code).weatherColor +
+      ', rgba(3, 3, 6, 1) 100%)'
+    firstBg.style.opacity = '0'
+    let secondBg = firstBg.cloneNode()
+    secondBg.id = 'main-bg-secong-gradient'
+    secondBg.style.background = gradient
+    bgArea.appendChild(secondBg)
+    setTimeout(() => {
+      firstBg.remove()
+      secondBg.id = 'main-bg-gradient'
+      secondBg.style.opacity = '1'
+    }, 1500)
+  })
+})
 </script>
 
 <template>
-  <div
-    class="flex absolute bg-[radial-gradient(65%_96.3%_at_50%_0%,rgba(63,123,212,1.0)_0%,rgba(3,3,6,1.0)_100%)] w-full h-[49.125rem] -z-10"
-  ></div>
+  <div id="bg-component">
+    <div
+      id="main-bg-gradient"
+      class="flex absolute bg-[radial-gradient(65%_96.3%_at_50%_0%,rgba(63,123,212,1.0)_0%,rgba(3,3,6,1.0)_100%)] transition-all delay-1000 w-full h-[49.125rem] -z-10"
+    ></div>
+  </div>
   <div class="flex flex-col items-center font-regular text-white px-6 py-8 gap-8">
     <header class="w-full">
       <Navigation :callback-function="getCityInfoFromSearch" />
@@ -75,7 +100,6 @@ const getCityInfoFromSearch = (searchResult) => {
         :humidity="weatherDataJson.current.relative_humidity_2m"
         :pressure="weatherDataJson.current.surface_pressure"
       />
-      <!-- <div v-else class="w-full text-center text-6xl">Нет данных</div> -->
       <div class="flex flex-col gap-4 w-full">
         <p class="font-medium text-2xl">Прогноз на 7 дней:</p>
         <div class="flex gap-4 w-full flex-nowrap">
@@ -100,3 +124,9 @@ const getCityInfoFromSearch = (searchResult) => {
     </main>
   </div>
 </template>
+
+<style scoped>
+#main-bg-gradient {
+  transition: opacity 1500ms ease-in-out;
+}
+</style>
