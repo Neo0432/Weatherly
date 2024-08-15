@@ -2,12 +2,22 @@
 <template>
   <div class="flex flex-col w-1/3 mx-auto">
     <img src="../assets/loading/loading.svg" alt="" />
-    <div class="flex justify-center items-center w-full gap-14">
-      <div class="w-6 h-6 rounded-full bg-[#f2bc58] border-[3px] border-[#051729] dot"></div>
-      <div class="w-6 h-6 rounded-full bg-[#f2bc58] border-[3px] border-[#051729] dot"></div>
-      <div class="w-9 h-9 rounded-full bg-[#f2bc58] border-[3px] border-[#051729] dot"></div>
-      <div class="w-6 h-6 rounded-full bg-[#f2bc58] border-[3px] border-[#051729] dot"></div>
-      <div class="w-6 h-6 rounded-full bg-[#f2bc58] border-[3px] border-[#051729] dot"></div>
+    <div class="flex justify-between items-center w-full">
+      <div
+        class="w-2 h-2 rounded-full bg-[#f2bc58] border-0 border-[#051729] dot sm:border-[3px] sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6"
+      ></div>
+      <div
+        class="w-2 h-2 rounded-full bg-[#f2bc58] border-0 border-[#051729] dot sm:border-[3px] sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6"
+      ></div>
+      <div
+        class="w-5 h-5 rounded-full bg-[#f2bc58] border-0 border-[#051729] dot sm:border-[3px] sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-9 lg:h-9"
+      ></div>
+      <div
+        class="w-2 h-2 rounded-full bg-[#f2bc58] border-0 border-[#051729] dot sm:border-[3px] sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6"
+      ></div>
+      <div
+        class="w-2 h-2 rounded-full bg-[#f2bc58] border-0 border-[#051729] dot sm:border-[3px] sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6"
+      ></div>
     </div>
   </div>
 </template>

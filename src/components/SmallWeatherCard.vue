@@ -27,7 +27,7 @@ function getMonthNumberPretty(month) {
 
 <template>
   <div
-    class="flex flex-col justify-between gap-2 p-4 rounded-2xl w-full min-w-[11.8rem] max-w-[12.5rem] font-medium bg-grayblueT shadow-based"
+    class="flex flex-col justify-between gap-2 p-4 rounded-2xl w-full min-w-[11.8rem] max-w-64 font-medium bg-grayblueT shadow-based"
   >
     <p class="text-sm">
       {{
@@ -39,10 +39,10 @@ function getMonthNumberPretty(month) {
       }}
     </p>
     <div class="flex justify-center gap-3 items-center w-full">
-      <img :src="props.weather.icon_path" alt="" />
+      <img :src="props.weather.icon_path" alt="" class="w-16 max-w-[5.25rem] 2xl:w-full" />
       <div class="flex flex-col items-center">
         <p class="font-bold text-[2rem]">{{ tempMark(props.temp) }}</p>
-        <p class="text-base break-word">{{ props.weather.description }}</p>
+        <p class="text-sm break-word">{{ props.weather.description }}</p>
       </div>
     </div>
     <div class="grid grid-cols-2 justify-center text-center">

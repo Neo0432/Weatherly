@@ -2,9 +2,10 @@
 import { tempMark } from '@/scripts/tempMark'
 
 const props = defineProps({
-  weatherToday: Object
+  weatherToday: Object,
+  isSmallScreen: Boolean
 })
-const timesOfDayRU = ['утром', 'днем', 'вечером', 'ночью']
+const timesOfDayRU = ['Утром', 'Днем', 'Вечером', 'Ночью']
 const MONTH = [
   'Января',
   'Февраля',
@@ -20,21 +21,167 @@ const MONTH = [
   'Декабря'
 ]
 const keysOfDay = ['morning', 'afternoon', 'evening', 'night']
+
+function displayBeautifulTime(time) {
+  if (time < 10) return '0' + time
+  else return time
+}
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 w-full max-w-screen-2xl items-center font-medium">
+  <div class="flex flex-col gap-4 w-full items-center font-medium">
     <p class="text-2xl self-start">Подробный прогноз:</p>
-    <div class="flex text-base gap-x-3 px-9 py-6 rounded-2xl w-full shadow-based bg-grayblueT">
+    <!--Mobile ver-->
+    <div
+      v-if="isSmallScreen"
+      class="flex flex-col px-4 py-6 gap-5 rounded-2xl w-full shadow-based bg-grayblueT"
+    >
+      <div class="flex flex-col items-center gap-6">
+        <div class="flex items-center gap-2">
+          <!--date-block-->
+          <p class="text-4xl lg:text-5xl">{{ props.weatherToday.date.getDate() }}</p>
+          <div class="flex flex-col justify-center text-sm lg:text-base">
+            <!--month&"today"-block-->
+            <p>{{ MONTH[props.weatherToday.date.getMonth()] }},</p>
+            <p>сегодня</p>
+          </div>
+        </div>
+        <!--Times of day-->
+        <div
+          class="grid grid-cols-4 w-full justify-items-center font-light text-base text-secondaryText"
+        >
+          <p v-for="time in timesOfDayRU" :key="time">{{ time }}</p>
+        </div>
+        <!--Temperature-->
+        <div class="grid grid-cols-4 w-full justify-items-center font-medium text-xl">
+          <p v-for="(time, index) in timesOfDayRU" :key="time">
+            {{ tempMark(props.weatherToday[keysOfDay[index]].temperature_2m) }}
+          </p>
+        </div>
+        <!--Weather-->
+        <div class="grid grid-cols-4 w-full justify-items-center">
+          <div v-for="(time, index) in timesOfDayRU" :key="time" class="flex flex-col items-center">
+            <img
+              :src="props.weatherToday[keysOfDay[index]].weather_code.icon_path"
+              class="max-h-12"
+              alt=""
+            />
+            <p class="text-wrap text-xs font-medium text-center">
+              {{ props.weatherToday[keysOfDay[index]].weather_code.description }}
+            </p>
+          </div>
+        </div>
+        <!--Pressure-->
+        <div class="grid grid-rows-2 w-full justify-items-center gap-1">
+          <p class="text-sm text-secondaryText">Давление, мм.рт.ст.</p>
+          <div class="grid grid-cols-4 w-full justify-items-center">
+            <p v-for="(time, index) in timesOfDayRU" :key="time">
+              {{ props.weatherToday[keysOfDay[index]].surface_pressure }}
+            </p>
+          </div>
+        </div>
+        <!--Humidity-->
+        <div class="grid grid-rows-2 w-full justify-items-center gap-1">
+          <p class="text-sm text-secondaryText">Влажность</p>
+          <div class="grid grid-cols-4 w-full justify-items-center">
+            <p v-for="(time, index) in timesOfDayRU" :key="time">
+              {{ Math.round(props.weatherToday[keysOfDay[index]].relative_humidity_2m) + '%' }}
+            </p>
+          </div>
+        </div>
+        <!--WindSpeed-->
+        <div class="grid grid-rows-2 w-full justify-items-center gap-1">
+          <p class="text-sm text-secondaryText">Ветер, м/с</p>
+          <div class="grid grid-cols-4 w-full justify-items-center">
+            <p v-for="(time, index) in timesOfDayRU" :key="time">
+              {{ props.weatherToday[keysOfDay[index]].wind_speed_10m }}
+            </p>
+          </div>
+        </div>
+        <!--Feels Like-->
+        <div class="grid grid-rows-2 w-full justify-items-center gap-1">
+          <p class="text-sm text-secondaryText">Ощущается как</p>
+          <div class="grid grid-cols-4 w-full justify-items-center">
+            <p v-for="(time, index) in timesOfDayRU" :key="time">
+              {{ tempMark(props.weatherToday[keysOfDay[index]].apparent_temperature) }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="w-full rounded-full border border-[#8491A2]"><!--separator--></div>
+      <div class="grid grid-cols-2 gap-4 justify-items-center">
+        <!--Sunrise&Sunset-->
+        <div class="flex flex-wrap justify-start gap-4">
+          <div class="flex items-center">
+            <img src="../assets/dayDetailed/sunrise.svg" class="max-w-12" alt="" />
+            <div class="flex flex-col gap-1 items-center">
+              <p class="font-light text-xs text-secondaryText">Восход</p>
+              <p class="text-lg">
+                {{
+                  displayBeautifulTime(new Date(props.weatherToday.sunrise * 1000).getHours()) +
+                  ':' +
+                  displayBeautifulTime(new Date(props.weatherToday.sunrise * 1000).getMinutes())
+                }}
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center">
+            <img src="../assets//dayDetailed/sunset.svg" alt="" />
+            <div class="flex flex-col gap-1 items-center">
+              <p class="font-light text-xs text-secondaryText">Закат</p>
+              <p class="text-lg lg:text-xl">
+                {{
+                  displayBeautifulTime(new Date(props.weatherToday.sunset * 1000).getHours()) +
+                  ':' +
+                  displayBeautifulTime(new Date(props.weatherToday.sunset * 1000).getMinutes())
+                }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <!--Min&Max temp-->
+        <div class="flex flex-wrap justify-start gap-2">
+          <!--Min&Max temp-->
+          <div class="flex items-center gap-1">
+            <!--min temp-->
+            <img src="../assets/dayDetailed/tempMin.svg" alt="" class="max-w-12" />
+            <div class="flex flex-col w-fit">
+              <p class="font-light text-nowrap text-xs text-secondaryText lg:text-base">
+                Мин. темп.
+              </p>
+              <p class="text-lg">
+                {{ tempMark(Math.round(props.weatherToday.temperature_2m_min)) }}
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-1">
+            <!--temp max-->
+            <img src="../assets/dayDetailed/tempMax.svg" alt="" class="max-w-12" />
+            <div class="flex flex-col w-fit">
+              <p class="font-light text-nowrap text-xs text-secondaryText">Макс. темп.</p>
+              <p class="text-lg">
+                {{ tempMark(Math.round(props.weatherToday.temperature_2m_max)) }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Desctop ver-->
+    <div
+      v-else
+      class="flex text-base gap-x-1 px-6 py-6 rounded-2xl w-full shadow-based bg-grayblueT xl:px-9 md:gap-x-3"
+    >
       <!--base-->
       <div class="flex flex-col gap-y-2 w-full">
         <!--block with info about temp, pressure, humidity, etc.-->
-        <div class="grid grid-cols-6 items-center gap-6 w-full">
+        <div class="grid grid-cols-6 items-center lg:gap-6 w-full text-sm lg:text-base">
           <!--header-string-->
           <div class="flex items-center gap-2">
             <!--date-block-->
-            <p class="text-5xl">{{ props.weatherToday.date.getDate() }}</p>
-            <div class="flex flex-col justify-center">
+            <p class="text-4xl lg:text-5xl">{{ props.weatherToday.date.getDate() }}</p>
+            <div class="flex flex-col justify-center text-sm lg:text-base">
               <!--month&"today"-block-->
               <p>{{ MONTH[props.weatherToday.date.getMonth()] }},</p>
               <p>сегодня</p>
@@ -48,20 +195,22 @@ const keysOfDay = ['morning', 'afternoon', 'evening', 'night']
           <p class="text-center text-secondaryText">Ощущается<br />как</p>
         </div>
         <template v-for="(time, index) in timesOfDayRU" :key="time">
-          <div class="grid grid-cols-6 gap-6 text-2xl w-full">
+          <div class="grid grid-cols-6 w-full md:gap-3 lg:gap-6 md:text-1xl lg:text-2xl">
             <div class="flex flex-col gap-1 w-full">
-              <p class="font-light text-base text-secondaryText">{{ time }}</p>
+              <p class="font-light text-sm text-secondaryText lg:text-base">{{ time }}</p>
               <p class="text-xl">
                 {{ tempMark(props.weatherToday[keysOfDay[index]].temperature_2m) }}
               </p>
             </div>
-            <div class="flex gap-1 items-center w-full">
+            <div
+              class="flex flex-col items-center w-full text-center lg:gap-1 lg:flex-row lg:justify-start lg:text-start"
+            >
               <img
                 :src="props.weatherToday[keysOfDay[index]].weather_code.icon_path"
                 class="max-h-12"
                 alt=""
               />
-              <p class="text-wrap text-base">
+              <p class="text-wrap text-xs lg:text-base">
                 {{ props.weatherToday[keysOfDay[index]].weather_code.description }}
               </p>
             </div>
@@ -69,7 +218,7 @@ const keysOfDay = ['morning', 'afternoon', 'evening', 'night']
               {{ props.weatherToday[keysOfDay[index]].surface_pressure }}
             </div>
             <div class="flex justify-center items-center w-full">
-              {{ props.weatherToday[keysOfDay[index]].relative_humidity_2m + '%' }}
+              {{ Math.round(props.weatherToday[keysOfDay[index]].relative_humidity_2m) + '%' }}
             </div>
             <div class="flex justify-center items-center w-full">
               {{ props.weatherToday[keysOfDay[index]].wind_speed_10m }}
@@ -89,11 +238,11 @@ const keysOfDay = ['morning', 'afternoon', 'evening', 'night']
             <img src="../assets/dayDetailed/sunrise.svg" class="max-w-12" alt="" />
             <div class="flex flex-col gap-1 items-center">
               <p class="font-light text-xs text-secondaryText">Восход</p>
-              <p class="text-xl">
+              <p class="text-lg lg:text-xl">
                 {{
-                  new Date(props.weatherToday.sunrise * 1000).getHours() +
+                  displayBeautifulTime(new Date(props.weatherToday.sunrise * 1000).getHours()) +
                   ':' +
-                  new Date(props.weatherToday.sunrise * 1000).getMinutes()
+                  displayBeautifulTime(new Date(props.weatherToday.sunrise * 1000).getMinutes())
                 }}
               </p>
             </div>
@@ -102,11 +251,11 @@ const keysOfDay = ['morning', 'afternoon', 'evening', 'night']
             <img src="../assets//dayDetailed/sunset.svg" alt="" />
             <div class="flex flex-col gap-1 items-center">
               <p class="font-light text-xs text-secondaryText">Закат</p>
-              <p class="text-xl">
+              <p class="text-lg lg:text-xl">
                 {{
-                  new Date(props.weatherToday.sunset * 1000).getHours() +
+                  displayBeautifulTime(new Date(props.weatherToday.sunset * 1000).getHours()) +
                   ':' +
-                  new Date(props.weatherToday.sunset * 1000).getMinutes()
+                  displayBeautifulTime(new Date(props.weatherToday.sunset * 1000).getMinutes())
                 }}
               </p>
             </div>
@@ -117,9 +266,9 @@ const keysOfDay = ['morning', 'afternoon', 'evening', 'night']
           <div class="flex gap-1">
             <!--min temp-->
             <img src="../assets/dayDetailed/tempMin.svg" alt="" />
-            <div class="flex flex-col gap-1">
-              <p class="font-light text-base text-secondaryText">Мин. темп.</p>
-              <p class="text-xl">
+            <div class="flex flex-col lg:gap-1">
+              <p class="font-light text-sm text-secondaryText lg:text-base">Мин. темп.</p>
+              <p class="text-lg lg:text-xl">
                 {{ tempMark(Math.round(props.weatherToday.temperature_2m_min)) }}
               </p>
             </div>
@@ -127,9 +276,9 @@ const keysOfDay = ['morning', 'afternoon', 'evening', 'night']
           <div class="flex gap-1">
             <!--temp max-->
             <img src="../assets/dayDetailed/tempMax.svg" alt="" />
-            <div class="flex flex-col gap-1">
+            <div class="flex flex-col lg:gap-1">
               <p class="font-light text-base text-secondaryText">Макс. темп.</p>
-              <p class="text-xl">
+              <p class="text-lg lg:text-xl">
                 {{ tempMark(Math.round(props.weatherToday.temperature_2m_max)) }}
               </p>
             </div>

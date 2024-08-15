@@ -3,14 +3,14 @@ export function showWeatherPic(weather) {
 }
 
 const weather_code_info = {
-  0: { description: 'Ясно', icon_path: '/src/assets/weatherPic/suny.svg', weatherColor: '#DAA520' },
+  0: { description: 'Ясно', icon_path: '/src/assets/weatherPic/suny.svg', weatherColor: '#FEC128' },
   1: {
-    description: 'В основном ясно',
+    description: 'В основн. ясно',
     icon_path: '/src/assets/weatherPic/cloudyWC.svg',
     weatherColor: '#D2B48C'
   },
   2: {
-    description: 'Облачно с прояс.',
+    description: 'Облачно с проясн.',
     icon_path: '/src/assets/weatherPic/cloudyWC.svg',
     weatherColor: '#4682B4'
   },

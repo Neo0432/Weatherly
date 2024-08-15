@@ -1,5 +1,6 @@
 <script setup>
-import { ref, watch, onBeforeMount, onMounted } from 'vue'
+import { ref, watch, computed, onBeforeMount, onMounted } from 'vue'
+import { useWindowSize } from '@vueuse/core'
 import Navigation from './components/Navigation.vue'
 import NoDataLoading from './components/NoDataLoading.vue'
 import WeatherNow from './components/WeatherNow.vue'
@@ -51,6 +52,10 @@ const getCityInfoFromSearch = (searchResult) => {
   })
 }
 
+//Screen sizing
+const { width } = useWindowSize()
+const isSmallScreen = computed(() => width.value <= 768)
+
 onMounted(() => {
   watch(weatherDataJson, (newWeatherDataJson) => {
     if (newWeatherDataJson == null || newWeatherDataJson == undefined) return
@@ -69,7 +74,7 @@ onMounted(() => {
       firstBg.remove()
       secondBg.id = 'main-bg-gradient'
       secondBg.style.opacity = '1'
-    }, 1500)
+    }, 1250)
   })
 })
 </script>
@@ -78,14 +83,14 @@ onMounted(() => {
   <div id="bg-component">
     <div
       id="main-bg-gradient"
-      class="flex absolute bg-[radial-gradient(65%_96.3%_at_50%_0%,rgba(63,123,212,1.0)_0%,rgba(3,3,6,1.0)_100%)] transition-all delay-1000 w-full h-[49.125rem] -z-10"
+      class="flex absolute bg-[radial-gradient(65%_96.3%_at_50%_0%,rgba(63,123,212,1.0)_0%,rgba(3,3,6,1.0)_100%)] w-full h-[49.125rem] -z-10"
     ></div>
   </div>
   <div class="flex flex-col items-center font-regular text-white px-6 py-8 gap-8">
     <header class="w-full">
       <Navigation :callback-function="getCityInfoFromSearch" />
     </header>
-    <main class="grid gap-8" v-if="weatherDataJson">
+    <main class="grid gap-8 justify-items-center w-full max-w-screen-2xl" v-if="weatherDataJson">
       <WeatherNow
         :city="cityInfo.local_names.ru"
         :temp="Math.round(weatherDataJson.current.temperature_2m)"
@@ -99,10 +104,11 @@ onMounted(() => {
         :wind="weatherDataJson.current.wind_speed_10m"
         :humidity="weatherDataJson.current.relative_humidity_2m"
         :pressure="weatherDataJson.current.surface_pressure"
+        :is-small-screen="isSmallScreen"
       />
       <div class="flex flex-col gap-4 w-full">
         <p class="font-medium text-2xl">Прогноз на 7 дней:</p>
-        <div class="flex gap-4 w-full flex-nowrap">
+        <div class="flex gap-4 w-full flex-nowrap overflow-hidden">
           <SmallWeatherCard
             v-for="(weather, index) in 7"
             :key="index"
@@ -117,7 +123,10 @@ onMounted(() => {
           />
         </div>
       </div>
-      <DayDetailed :weatherToday="getWeatherForDate(weatherDataJson)" />
+      <DayDetailed
+        :weatherToday="getWeatherForDate(weatherDataJson)"
+        :is-small-screen="isSmallScreen"
+      />
     </main>
     <main v-else class="w-full">
       <NoDataLoading />
