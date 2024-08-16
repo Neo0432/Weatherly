@@ -88,7 +88,7 @@ onMounted(() => {
   </div>
   <div class="flex flex-col items-center font-regular text-white px-6 py-8 gap-8">
     <header class="w-full">
-      <Navigation :callback-function="getCityInfoFromSearch" />
+      <Navigation :callback-function="getCityInfoFromSearch" :is-small-screen="isSmallScreen" />
     </header>
     <main class="grid gap-8 justify-items-center w-full max-w-screen-2xl" v-if="weatherDataJson">
       <WeatherNow
@@ -108,7 +108,7 @@ onMounted(() => {
       />
       <div class="flex flex-col gap-4 w-full">
         <p class="font-medium text-2xl">Прогноз на 7 дней:</p>
-        <div class="flex gap-4 w-full flex-nowrap overflow-hidden">
+        <div v-show="false" class="flex gap-4 w-full flex-nowrap overflow-hidden">
           <SmallWeatherCard
             v-for="(weather, index) in 7"
             :key="index"
