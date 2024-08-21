@@ -26,6 +26,8 @@ const searchByCityName = () => {
 let isSearchVisible = ref(false)
 
 const searchForSmallScreen = (e) => {
+  if (!props.isSmallScreen) isSearchVisible.value = true
+  console.log(props.isSmallScreen)
   e.preventDefault()
   const searchInput = document.querySelector('#searchInput')
   if (isSearchVisible.value) {
@@ -40,6 +42,10 @@ const searchForSmallScreen = (e) => {
   setTimeout(() => searchInput.focus(), 0)
   isSearchVisible.value = true
   console.log(isSearchVisible.value)
+}
+
+const clearSearchInput = () => {
+  document.querySelector('#searchInput').value = ''
 }
 </script>
 
@@ -62,6 +68,7 @@ const searchForSmallScreen = (e) => {
       :class="{ 'justify-center': isSearchVisible }"
     >
       <input
+        @focus="clearSearchInput"
         v-model="cityName.name"
         type="text"
         name="search"

@@ -4,15 +4,11 @@ import { useWindowSize } from '@vueuse/core'
 import Navigation from './components/Navigation.vue'
 import NoDataLoading from './components/NoDataLoading.vue'
 import WeatherNow from './components/WeatherNow.vue'
-import SmallWeatherCard from './components/SmallWeatherCard.vue'
+import ScrollerHorizontal from './components/ScrollerHorizontal.vue'
 import DayDetailed from './components/DayDetailed.vue'
 import * as apiRequests from '@/scripts/apiRequests'
 import { weatherFromWeatherCode } from '@/scripts/showWeatherPic'
-import {
-  currentApparentTemperature,
-  showAvrOfParameter,
-  getWeatherForDate
-} from '@/scripts/computationForecastData'
+import { currentApparentTemperature, getWeatherForDate } from '@/scripts/computationForecastData'
 
 let cityInfo = ref({})
 let weatherDataJson = ref(null)
@@ -106,22 +102,9 @@ onMounted(() => {
         :pressure="weatherDataJson.current.surface_pressure"
         :is-small-screen="isSmallScreen"
       />
-      <div class="flex flex-col gap-4 w-full">
+      <div class="flex flex-col gap-4 w-full overflow-hidden">
         <p class="font-medium text-2xl">Прогноз на 7 дней:</p>
-        <div v-show="false" class="flex gap-4 w-full flex-nowrap overflow-hidden">
-          <SmallWeatherCard
-            v-for="(weather, index) in 7"
-            :key="index"
-            :date="new Date(weatherDataJson.daily.time[index] * 1000)"
-            :temp="Math.round(weatherDataJson.daily.temperature_2m_max[index])"
-            :weather="weatherFromWeatherCode(weatherDataJson.daily.weather_code[index])"
-            :min_temp="weatherDataJson.daily.temperature_2m_min[index]"
-            :max_temp="weatherDataJson.daily.temperature_2m_max[index]"
-            :wind="showAvrOfParameter(weatherDataJson.hourly.wind_speed_10m, index)"
-            :humidity="showAvrOfParameter(weatherDataJson.hourly.relative_humidity_2m, index)"
-            :pressure="showAvrOfParameter(weatherDataJson.hourly.surface_pressure, index)"
-          />
-        </div>
+        <ScrollerHorizontal :forecast-list="weatherDataJson" />
       </div>
       <DayDetailed
         :weatherToday="getWeatherForDate(weatherDataJson)"

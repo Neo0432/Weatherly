@@ -42,7 +42,7 @@ function getMonthNumberPretty(month) {
       <img :src="props.weather.icon_path" alt="" class="w-16 max-w-[5.25rem] 2xl:w-full" />
       <div class="flex flex-col items-center">
         <p class="font-bold text-[2rem]">{{ tempMark(props.temp) }}</p>
-        <p class="text-sm break-word">{{ props.weather.description }}</p>
+        <p class="text-sm break-word text-center">{{ props.weather.description }}</p>
       </div>
     </div>
     <div class="grid grid-cols-2 justify-center text-center">
