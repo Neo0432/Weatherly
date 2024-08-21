@@ -12,28 +12,22 @@ import { currentApparentTemperature, getWeatherForDate } from '@/scripts/computa
 
 let cityInfo = ref({})
 let weatherDataJson = ref(null)
+window.userPosition = {}
 
 onBeforeMount(async () => {
-  navigator.geolocation.getCurrentPosition((position) => {
-    //мб и бесполезная проверка, можно оптимизировать
-    if (
-      !(position.coords.latitude == localStorage.getItem('userLatitude')) ||
-      !(position.coords.longitude == localStorage.getItem('userLongitude'))
-    ) {
-      console.log('Запрос геолокации пользователя')
-      console.log(position.coords.latitude, position.coords.longitude)
-      localStorage.setItem('userLatitude', position.coords.latitude)
-      localStorage.setItem('userLongitude', position.coords.longitude)
+  navigator.geolocation.getCurrentPosition(async (position) => {
+    console.log('Запрос геолокации пользователя')
+    console.log(position.coords.latitude, position.coords.longitude)
+
+    window.userPosition.currentUserPosition = {
+      lat: position.coords.latitude,
+      lon: position.coords.longitude
+    }
+    cityInfo.value = await apiRequests.getCityInfo(window.userPosition.currentUserPosition)
+    if (cityInfo.value) {
+      weatherDataJson.value = await apiRequests.getWeatherResponseFromAPI(cityInfo.value)
     }
   })
-  let currentUserPosition = {
-    lat: localStorage.getItem('userLatitude'),
-    lon: localStorage.getItem('userLongitude')
-  }
-  cityInfo.value = await apiRequests.getCityInfo(currentUserPosition)
-  if (cityInfo.value) {
-    weatherDataJson.value = await apiRequests.getWeatherResponseFromAPI(cityInfo.value)
-  }
 })
 
 const getCityInfoFromSearch = (searchResult) => {

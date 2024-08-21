@@ -41,11 +41,11 @@ export async function getCityInfo(cityInfo) {
   }
   return city
 }
+
 export async function getWeatherResponseFromAPI(city) {
   if (!city) return
   let data = null
   try {
-    console.log('OK')
     await axios
       .get(
         `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current=temperature_2m,relative_humidity_2m,weather_code,surface_pressure,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,surface_pressure,wind_speed_10m,temperature_1000hPa,relative_humidity_1000hPa&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset&wind_speed_unit=ms&timeformat=unixtime&timezone=auto`

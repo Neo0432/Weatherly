@@ -13,7 +13,6 @@ const props = defineProps({
 
 const { width } = useWindowSize()
 const slidesOnPage = computed(() => {
-  console.log(Math.round(width.value / 204.8))
   let count = Math.round(width.value / 260)
   if (width.value < 750) count = Math.round(width.value / 370)
   if (count > 7) return 7
