@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch, computed, onBeforeMount, onMounted } from 'vue'
 import { useWindowSize } from '@vueuse/core'
-import Navigation from './components/Navigation.vue'
+import Navigation from './components/NavigationSearchInput.vue'
 import NoDataLoading from './components/NoDataLoading.vue'
 import WeatherNow from './components/WeatherNow.vue'
 import ScrollerHorizontal from './components/ScrollerHorizontal.vue'
@@ -76,11 +76,14 @@ onMounted(() => {
       class="flex absolute bg-[radial-gradient(65%_96.3%_at_50%_0%,rgba(63,123,212,1.0)_0%,rgba(3,3,6,1.0)_100%)] w-full h-[49.125rem] -z-10"
     ></div>
   </div>
-  <div class="flex flex-col items-center font-regular text-white px-6 py-8 gap-8">
+  <div class="flex flex-col min-h-screen items-center font-regular text-white px-6 py-8 gap-8">
     <header class="w-full">
       <Navigation :callback-function="getCityInfoFromSearch" :is-small-screen="isSmallScreen" />
     </header>
-    <main class="grid gap-8 justify-items-center w-full max-w-screen-2xl" v-if="weatherDataJson">
+    <main
+      class="flex flex-col gap-8 justify-items-center w-full max-w-screen-2xl"
+      v-if="weatherDataJson"
+    >
       <WeatherNow
         :city="cityInfo.local_names.ru"
         :temp="Math.round(weatherDataJson.current.temperature_2m)"
@@ -105,9 +108,23 @@ onMounted(() => {
         :is-small-screen="isSmallScreen"
       />
     </main>
-    <main v-else class="w-full">
+    <main v-else class="w-full flex flex-1">
       <NoDataLoading />
     </main>
+    <footer class="relative flex justify-center items-end w-full p-8">
+      <p class="text-secondaryText opacity-60 w-fit px-16">
+        Forecast data provided by
+        <a class="underline underline-offset-4 decoration-1" href="https://openweathermap.org/"
+          >openweathermap.org</a
+        >,
+        <a class="underline underline-offset-4 decoration-1" href="https://open-meteo.com/"
+          >open-meteo.com</a
+        >
+      </p>
+      <a href="https://github.com/Neo0432" class="absolute right-8 bottom-8 opacity-50"
+        ><img src="./assets/githubIcon.svg" alt=""
+      /></a>
+    </footer>
   </div>
 </template>
 
