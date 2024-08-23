@@ -54,7 +54,11 @@ const clearSearchInput = () => {
     class="flex justify-between items-center transition-all w-full h-fit max-w-screen-2xl mx-auto md:gap-6 md:px-10 md:py-4"
     :class="{ 'flex-col gap-2': isSearchVisible }"
   >
-    <div @click="dontTouchMe" class="flex gap-2 items-center w-fit h-10 hover:cursor-pointer">
+    <div
+      v-memo="[isSearchVisible]"
+      @click="dontTouchMe"
+      class="flex gap-2 items-center w-fit h-10 hover:cursor-pointer"
+    >
       <div class="w-14 sm:w-16 md:w-20 lg:w-28">
         <img src="/src/assets/logo.svg" alt="" class="w-full h-auto" />
       </div>

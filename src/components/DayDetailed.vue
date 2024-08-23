@@ -30,14 +30,14 @@ function displayBeautifulTime(time) {
 
 <template>
   <div class="flex flex-col gap-4 w-full items-center font-medium">
-    <p class="text-2xl self-start">Подробный прогноз:</p>
+    <p v-memo="[]" class="text-2xl self-start">Подробный прогноз:</p>
     <!--Mobile ver-->
     <div
       v-if="isSmallScreen"
       class="flex flex-col px-4 py-6 gap-5 rounded-2xl w-full shadow-based bg-grayblueT"
     >
       <div class="flex flex-col items-center gap-6">
-        <div class="flex items-center gap-2">
+        <div v-memo="[props.weatherToday]" class="flex items-center gap-2">
           <!--date-block-->
           <p class="text-4xl lg:text-5xl">{{ props.weatherToday.date.getDate() }}</p>
           <div class="flex flex-col justify-center text-sm lg:text-base">
@@ -48,6 +48,7 @@ function displayBeautifulTime(time) {
         </div>
         <!--Times of day-->
         <div
+          v-memo="[timesOfDayRU]"
           class="grid grid-cols-4 w-full justify-items-center font-light text-base text-secondaryText"
         >
           <p v-for="time in timesOfDayRU" :key="time">{{ time }}</p>
@@ -73,7 +74,7 @@ function displayBeautifulTime(time) {
         </div>
         <!--Pressure-->
         <div class="grid grid-rows-2 w-full justify-items-center gap-1">
-          <p class="text-sm text-secondaryText">Давление, мм.рт.ст.</p>
+          <p v-memo="[]" class="text-sm text-secondaryText">Давление, мм.рт.ст.</p>
           <div class="grid grid-cols-4 w-full justify-items-center">
             <p v-for="(time, index) in timesOfDayRU" :key="time">
               {{ props.weatherToday[keysOfDay[index]].surface_pressure }}
@@ -82,7 +83,7 @@ function displayBeautifulTime(time) {
         </div>
         <!--Humidity-->
         <div class="grid grid-rows-2 w-full justify-items-center gap-1">
-          <p class="text-sm text-secondaryText">Влажность</p>
+          <p v-memo="[]" class="text-sm text-secondaryText">Влажность</p>
           <div class="grid grid-cols-4 w-full justify-items-center">
             <p v-for="(time, index) in timesOfDayRU" :key="time">
               {{ Math.round(props.weatherToday[keysOfDay[index]].relative_humidity_2m) + '%' }}
@@ -91,7 +92,7 @@ function displayBeautifulTime(time) {
         </div>
         <!--WindSpeed-->
         <div class="grid grid-rows-2 w-full justify-items-center gap-1">
-          <p class="text-sm text-secondaryText">Ветер, м/с</p>
+          <p v-memo="[]" class="text-sm text-secondaryText">Ветер, м/с</p>
           <div class="grid grid-cols-4 w-full justify-items-center">
             <p v-for="(time, index) in timesOfDayRU" :key="time">
               {{ props.weatherToday[keysOfDay[index]].wind_speed_10m }}
@@ -100,7 +101,7 @@ function displayBeautifulTime(time) {
         </div>
         <!--Feels Like-->
         <div class="grid grid-rows-2 w-full justify-items-center gap-1">
-          <p class="text-sm text-secondaryText">Ощущается как</p>
+          <p v-memo="[]" class="text-sm text-secondaryText">Ощущается как</p>
           <div class="grid grid-cols-4 w-full justify-items-center">
             <p v-for="(time, index) in timesOfDayRU" :key="time">
               {{ tempMark(props.weatherToday[keysOfDay[index]].apparent_temperature) }}
@@ -115,7 +116,7 @@ function displayBeautifulTime(time) {
           <div class="flex items-center">
             <img src="../assets/dayDetailed/sunrise.svg" class="max-w-12" alt="" />
             <div class="flex flex-col gap-1 items-center">
-              <p class="font-light text-xs text-secondaryText">Восход</p>
+              <p v-memo="[]" class="font-light text-xs text-secondaryText">Восход</p>
               <p class="text-lg">
                 {{
                   displayBeautifulTime(new Date(props.weatherToday.sunrise * 1000).getHours()) +
@@ -128,7 +129,7 @@ function displayBeautifulTime(time) {
           <div class="flex items-center">
             <img src="../assets//dayDetailed/sunset.svg" alt="" />
             <div class="flex flex-col gap-1 items-center">
-              <p class="font-light text-xs text-secondaryText">Закат</p>
+              <p v-memo="[]" class="font-light text-xs text-secondaryText">Закат</p>
               <p class="text-lg lg:text-xl">
                 {{
                   displayBeautifulTime(new Date(props.weatherToday.sunset * 1000).getHours()) +
@@ -146,7 +147,7 @@ function displayBeautifulTime(time) {
             <!--min temp-->
             <img src="../assets/dayDetailed/tempMin.svg" alt="" class="max-w-12" />
             <div class="flex flex-col w-fit">
-              <p class="font-light text-nowrap text-xs text-secondaryText lg:text-base">
+              <p v-memo="[]" class="font-light text-nowrap text-xs text-secondaryText lg:text-base">
                 Мин. темп.
               </p>
               <p class="text-lg">
@@ -158,7 +159,9 @@ function displayBeautifulTime(time) {
             <!--temp max-->
             <img src="../assets/dayDetailed/tempMax.svg" alt="" class="max-w-12" />
             <div class="flex flex-col w-fit">
-              <p class="font-light text-nowrap text-xs text-secondaryText">Макс. темп.</p>
+              <p v-memo="[]" class="font-light text-nowrap text-xs text-secondaryText">
+                Макс. темп.
+              </p>
               <p class="text-lg">
                 {{ tempMark(Math.round(props.weatherToday.temperature_2m_max)) }}
               </p>
@@ -178,7 +181,7 @@ function displayBeautifulTime(time) {
         <!--block with info about temp, pressure, humidity, etc.-->
         <div class="grid grid-cols-6 items-center lg:gap-6 w-full text-sm lg:text-base">
           <!--header-string-->
-          <div class="flex items-center gap-2">
+          <div v-memo="[props.weatherToday]" class="flex items-center gap-2">
             <!--date-block-->
             <p class="text-4xl lg:text-5xl">{{ props.weatherToday.date.getDate() }}</p>
             <div class="flex flex-col justify-center text-sm lg:text-base">
@@ -189,10 +192,10 @@ function displayBeautifulTime(time) {
           </div>
           <!--header-values-names-row-->
           <p></p>
-          <p class="text-center text-secondaryText">Давление,<br />мм рт. ст.</p>
-          <p class="text-center text-secondaryText">Влажность</p>
-          <p class="text-center text-secondaryText">Ветер,<br />м/с</p>
-          <p class="text-center text-secondaryText">Ощущается<br />как</p>
+          <p v-memo="[]" class="text-center text-secondaryText">Давление,<br />мм рт. ст.</p>
+          <p v-memo="[]" class="text-center text-secondaryText">Влажность</p>
+          <p v-memo="[]" class="text-center text-secondaryText">Ветер,<br />м/с</p>
+          <p v-memo="[]" class="text-center text-secondaryText">Ощущается<br />как</p>
         </div>
         <template v-for="(time, index) in timesOfDayRU" :key="time">
           <div class="grid grid-cols-6 w-full md:gap-3 lg:gap-6 md:text-1xl lg:text-2xl">
@@ -237,7 +240,7 @@ function displayBeautifulTime(time) {
           <div class="flex flex-col items-center">
             <img src="../assets/dayDetailed/sunrise.svg" class="max-w-12" alt="" />
             <div class="flex flex-col gap-1 items-center">
-              <p class="font-light text-xs text-secondaryText">Восход</p>
+              <p v-memo="[]" class="font-light text-xs text-secondaryText">Восход</p>
               <p class="text-lg lg:text-xl">
                 {{
                   displayBeautifulTime(new Date(props.weatherToday.sunrise * 1000).getHours()) +
@@ -250,7 +253,7 @@ function displayBeautifulTime(time) {
           <div class="flex flex-col items-center">
             <img src="../assets//dayDetailed/sunset.svg" alt="" />
             <div class="flex flex-col gap-1 items-center">
-              <p class="font-light text-xs text-secondaryText">Закат</p>
+              <p v-memo="[]" class="font-light text-xs text-secondaryText">Закат</p>
               <p class="text-lg lg:text-xl">
                 {{
                   displayBeautifulTime(new Date(props.weatherToday.sunset * 1000).getHours()) +
@@ -267,7 +270,9 @@ function displayBeautifulTime(time) {
             <!--min temp-->
             <img src="../assets/dayDetailed/tempMin.svg" alt="" />
             <div class="flex flex-col lg:gap-1">
-              <p class="font-light text-sm text-secondaryText lg:text-base">Мин. темп.</p>
+              <p v-memo="[]" class="font-light text-sm text-secondaryText lg:text-base">
+                Мин. темп.
+              </p>
               <p class="text-lg lg:text-xl">
                 {{ tempMark(Math.round(props.weatherToday.temperature_2m_min)) }}
               </p>
@@ -277,7 +282,7 @@ function displayBeautifulTime(time) {
             <!--temp max-->
             <img src="../assets/dayDetailed/tempMax.svg" alt="" />
             <div class="flex flex-col lg:gap-1">
-              <p class="font-light text-base text-secondaryText">Макс. темп.</p>
+              <p v-memo="[]" class="font-light text-base text-secondaryText">Макс. темп.</p>
               <p class="text-lg lg:text-xl">
                 {{ tempMark(Math.round(props.weatherToday.temperature_2m_max)) }}
               </p>

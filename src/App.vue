@@ -102,7 +102,7 @@ onMounted(() => {
         :is-small-screen="isSmallScreen"
       />
       <div class="flex flex-col gap-4 w-full overflow-hidden">
-        <p class="font-medium text-2xl">Прогноз на 7 дней:</p>
+        <p v-memo="[]" class="font-medium text-2xl">Прогноз на 7 дней:</p>
         <ScrollerHorizontal :forecast-list="weatherDataJson" />
       </div>
       <DayDetailed
@@ -113,7 +113,7 @@ onMounted(() => {
     <main v-else class="w-full flex flex-1">
       <NoDataLoading />
     </main>
-    <footer class="relative flex justify-start items-end w-full py-8 sm:justify-center">
+    <footer v-memo="[]" class="relative flex justify-start items-end w-full py-8 sm:justify-center">
       <p class="text-secondaryText opacity-60 w-fit pr-16 text-xs text-center md:text-sm">
         Forecast data provided by
         <a class="underline underline-offset-4 decoration-1" href="https://openweathermap.org/"
