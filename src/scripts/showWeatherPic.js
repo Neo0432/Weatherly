@@ -1,7 +1,3 @@
-export function showWeatherPic(weather) {
-  return `/src/assets/weatherPic/${weather}.svg`
-}
-
 const weather_code_info = {
   0: { description: 'Ясно', icon_path: '/src/assets/weatherPic/suny.svg', weatherColor: '#FEC128' },
   1: {

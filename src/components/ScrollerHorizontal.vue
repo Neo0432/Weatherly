@@ -36,7 +36,7 @@ watch(slidesOnPage, (newSlideOnPage) => {
 
 <template>
   <Splide class="flex w-full" :options="SplideOptions">
-    <SplideSlide v-for="(weather, index) in 7" :key="index" class="flex">
+    <SplideSlide v-for="(weather, index) in 7" :key="index" class="flex justify-center">
       <SmallWeatherCard
         :date="new Date(props.forecastList.daily.time[index] * 1000)"
         :temp="Math.round(props.forecastList.daily.temperature_2m_max[index])"
@@ -50,5 +50,3 @@ watch(slidesOnPage, (newSlideOnPage) => {
     </SplideSlide>
   </Splide>
 </template>
-
-<style scoped></style>

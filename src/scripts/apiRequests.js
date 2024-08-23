@@ -11,7 +11,7 @@ export async function getCityInfo(cityInfo) {
         )
         .then((res) => (city = res.data[0]))
 
-      //powered by OPEN-METEO API (same that forecast API)
+      //powered by OPEN-METEO API (same that forecast-data API)
       // await axios
       //   .get(
       //     `https://geocoding-api.open-meteo.com/v1/search?name=${cityInfo.name}&count=1&language=ru&format=json`

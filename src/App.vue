@@ -76,7 +76,9 @@ onMounted(() => {
       class="flex absolute bg-[radial-gradient(65%_96.3%_at_50%_0%,rgba(63,123,212,1.0)_0%,rgba(3,3,6,1.0)_100%)] w-full h-[49.125rem] -z-10"
     ></div>
   </div>
-  <div class="flex flex-col min-h-screen items-center font-regular text-white px-6 py-8 gap-8">
+  <div
+    class="flex flex-col min-h-screen items-center font-regular text-white px-4 md:px-6 py-8 gap-8"
+  >
     <header class="w-full">
       <Navigation :callback-function="getCityInfoFromSearch" :is-small-screen="isSmallScreen" />
     </header>
@@ -111,8 +113,8 @@ onMounted(() => {
     <main v-else class="w-full flex flex-1">
       <NoDataLoading />
     </main>
-    <footer class="relative flex justify-center items-end w-full p-8">
-      <p class="text-secondaryText opacity-60 w-fit px-16">
+    <footer class="relative flex justify-start items-end w-full py-8 sm:justify-center">
+      <p class="text-secondaryText opacity-60 w-fit pr-16 text-xs text-center md:text-sm">
         Forecast data provided by
         <a class="underline underline-offset-4 decoration-1" href="https://openweathermap.org/"
           >openweathermap.org</a
@@ -121,7 +123,9 @@ onMounted(() => {
           >open-meteo.com</a
         >
       </p>
-      <a href="https://github.com/Neo0432" class="absolute right-8 bottom-8 opacity-50"
+      <a
+        href="https://github.com/Neo0432"
+        class="absolute opacity-50 right-4 bottom-4 md:right-6 md:bottom-6"
         ><img src="./assets/githubIcon.svg" alt=""
       /></a>
     </footer>
