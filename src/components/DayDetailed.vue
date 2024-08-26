@@ -232,7 +232,7 @@ function displayBeautifulTime(time) {
           </div>
         </template>
       </div>
-      <div class="h-full rounded-full border border-[#8491A2]"><!--separator--></div>
+      <div class="rounded-full border border-[#8491A2]"><!--separator--></div>
       <div class="flex flex-col justify-center items-center gap-6 w-full max-w-44">
         <!--second block with sunrise, sunset, min&max temp-->
         <div class="flex justify-center gap-4">
