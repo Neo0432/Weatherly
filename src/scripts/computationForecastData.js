@@ -1,9 +1,7 @@
-import { weatherFromWeatherCode } from './showWeatherPic'
+import { weatherFromWeatherCode } from './showWeatherPic.js'
 
 export function currentApparentTemperature(hourlyApparentTemperature, timeNow) {
   let hourNow = new Date(timeNow * 1000).getHours()
-  //   console.warn(`ЧАС: ${hourNow}`)
-  //   console.warn(`ОЩУЩАЕТСЯ СЕЙЧАС КАК ${hourlyApparentTemperature[hourNow]}`)
   return Math.round(hourlyApparentTemperature[hourNow])
 }
 
