@@ -19,18 +19,17 @@ const slidesOnPage = computed(() => {
   return count
 })
 
+watch(slidesOnPage, (newSlideOnPage) => {
+  SplideOptions.value.perPage = newSlideOnPage
+})
+
 let SplideOptions = ref({
   type: 'slide',
   perPage: slidesOnPage.value,
-  // perPage: 8,
   trimSpace: true,
   gap: '1rem',
   pagination: false,
   rewind: false
-})
-
-watch(slidesOnPage, (newSlideOnPage) => {
-  SplideOptions.value.perPage = newSlideOnPage
 })
 </script>
 

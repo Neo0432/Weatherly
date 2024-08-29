@@ -45,15 +45,13 @@ function getDataAboutTimeOfDay(timing, dataArray) {
     avg(dataArray.apparent_temperature.slice(timing[0], timing[1]))
   )
   data.weather_code = weatherFromWeatherCode(
-    getTheMostFrequentWeatherCode(timing, dataArray.weather_code.slice(timing[0], timing[1]))
+    getTheMostFrequentWeatherCode(dataArray.weather_code.slice(timing[0], timing[1]))
   )
-
-  // console.table(data)
 
   return data
 }
 
-function getTheMostFrequentWeatherCode(timing, weatherCodesArray) {
+function getTheMostFrequentWeatherCode(weatherCodesArray) {
   const mostFrequentNum = Object.entries(
     weatherCodesArray.reduce((acc, n) => ((acc[n] = (acc[n] ?? 0) + 1), acc), {})
   )

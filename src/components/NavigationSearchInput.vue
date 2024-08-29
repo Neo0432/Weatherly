@@ -10,9 +10,6 @@ const props = defineProps({
   isSmallScreen: Boolean
 })
 
-//Just like a plug
-const dontTouchMe = () => alert('Dont touch me plz')
-
 let cityName = ref({ name: '' })
 
 const searchByCityName = () => {
@@ -20,14 +17,13 @@ const searchByCityName = () => {
     return
   }
   const cityInfo = getCityInfo(cityName.value)
-  props.callbackFunction(cityInfo)
+  props.callbackFunction(cityInfo) //return cityInfo from component (to App.vue)
 }
 
 let isSearchVisible = ref(false)
 
 const searchForSmallScreen = (e) => {
   if (!props.isSmallScreen) isSearchVisible.value = true
-  console.log(props.isSmallScreen)
   e.preventDefault()
   const searchInput = document.querySelector('#searchInput')
   if (isSearchVisible.value) {
@@ -56,8 +52,7 @@ const clearSearchInput = () => {
   >
     <div
       v-memo="[isSearchVisible]"
-      @click="dontTouchMe"
-      class="flex gap-2 items-center w-fit h-10 hover:cursor-pointer"
+      class="flex gap-2 items-center w-fit h-10 hover:cursor-pointer duration-500 transition-all"
     >
       <div class="w-14 sm:w-16 md:w-20 lg:w-28">
         <img src="/src/assets/logo.svg" alt="" class="w-full h-auto" />
@@ -79,8 +74,8 @@ const clearSearchInput = () => {
         id="searchInput"
         placeholder="Введите ваш город"
         autocomplete="off"
-        class="p-2 w-4/5 font-regular bg-grayblue shadow-based outline-none rounded-lg placeholder:text-white placeholder:text-base placeholder:focus:text-sm placeholder:focus:text-secondaryText placeholder:transition-all md:flex md:w-60 lg:w-[27.5rem]"
-        :class="isSearchVisible ? 'flex' : 'hidden'"
+        class="p-2 w-4/5 font-regular bg-grayblue shadow-based outline-none rounded-lg placeholder:text-white placeholder:text-base placeholder:focus:text-sm placeholder:focus:text-secondaryText placeholder:transition-all md:flex md:w-60 md:opacity-100 lg:w-[27.5rem] display-transition"
+        :class="isSearchVisible ? 'flex opacity-100 ' : 'hidden opacity-0'"
       />
       <button
         type="button"
@@ -93,3 +88,13 @@ const clearSearchInput = () => {
     </form>
   </div>
 </template>
+
+<style scoped>
+.display-transition {
+  @starting-style {
+    opacity: 0;
+    width: 25rem;
+  }
+  transition: all 400ms;
+}
+</style>

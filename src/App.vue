@@ -10,15 +10,13 @@ import * as apiRequests from '@/scripts/apiRequests'
 import { weatherFromWeatherCode } from '@/scripts/showWeatherPic'
 import { currentApparentTemperature, getWeatherForDate } from '@/scripts/computationForecastData'
 
-let cityInfo = ref({})
+let cityInfo = ref(null)
 let weatherDataJson = ref(null)
 window.userPosition = {}
 
 onBeforeMount(async () => {
   navigator.geolocation.getCurrentPosition(async (position) => {
-    console.log('Запрос геолокации пользователя')
-    console.log(position.coords.latitude, position.coords.longitude)
-
+    console.debug('Запрос геолокации пользователя')
     window.userPosition.currentUserPosition = {
       lat: position.coords.latitude,
       lon: position.coords.longitude

@@ -1,4 +1,3 @@
-<script setup></script>
 <template>
   <div class="flex flex-col w-1/3 mx-auto">
     <img src="../assets/loading/loading.svg" alt="" />
