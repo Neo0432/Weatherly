@@ -114,10 +114,16 @@ onMounted(() => {
     <footer v-memo="[]" class="relative flex justify-start items-end w-full py-8 sm:justify-center">
       <p class="text-secondaryText opacity-60 w-fit pr-16 text-xs text-center md:text-sm">
         Forecast data provided by
-        <a class="underline underline-offset-4 decoration-1" href="https://openweathermap.org/"
+        <a
+          target="_blank"
+          class="underline underline-offset-4 decoration-1"
+          href="https://openweathermap.org/"
           >openweathermap.org</a
         >,
-        <a class="underline underline-offset-4 decoration-1" href="https://open-meteo.com/"
+        <a
+          target="_blank"
+          class="underline underline-offset-4 decoration-1"
+          href="https://open-meteo.com/"
           >open-meteo.com</a
         >
       </p>
