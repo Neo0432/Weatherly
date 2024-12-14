@@ -116,20 +116,20 @@ onMounted(() => {
         Forecast data provided by
         <a
           target="_blank"
-          class="underline underline-offset-4 decoration-1"
+          class="underline underline-offset-4 decoration-1 hover:text-blue-200 transition-colors duration-300"
           href="https://openweathermap.org/"
           >openweathermap.org</a
         >,
         <a
           target="_blank"
-          class="underline underline-offset-4 decoration-1"
+          class="underline underline-offset-4 decoration-1 hover:text-blue-200 transition-colors duration-300"
           href="https://open-meteo.com/"
           >open-meteo.com</a
         >
       </p>
       <a
         href="https://github.com/Neo0432/Weatherly"
-        class="absolute opacity-50 right-4 bottom-4 md:right-6 md:bottom-6"
+        class="absolute opacity-50 right-4 bottom-4 hover:scale-125 md:right-6 md:bottom-6 transition-transform duration-500"
         ><img src="./assets/githubIcon.svg" alt=""
       /></a>
     </footer>

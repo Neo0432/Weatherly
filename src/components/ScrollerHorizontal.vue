@@ -21,6 +21,7 @@ const slidesOnPage = computed(() => {
 
 watch(slidesOnPage, (newSlideOnPage) => {
   SplideOptions.value.perPage = newSlideOnPage
+  SplideOptions.value.gap = newSlideOnPage > 3 ? '1rem' : '0.5rem'
 })
 
 let SplideOptions = ref({
